@@ -20,6 +20,7 @@ set(SOURCES example_main.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME}
                         pico_stdlib
+                        hardware_i2c
                         ssd1306_ascii_pico::ssd1306_ascii_pico)
 
 # create map/bin/hex/uf2 file in addition to ELF.
