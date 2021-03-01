@@ -1,4 +1,7 @@
-/* Arduino SSD1306Ascii Library
+/*
+   This is a port of the Arduino library for the Raspberry Pico platform
+
+ * Arduino SSD1306Ascii Library
  * Copyright (C) 2015 by William Greiman
  *
  * This file is part of the Arduino SSD1306Ascii Library
