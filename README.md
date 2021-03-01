@@ -1,6 +1,6 @@
 # ssd1306_ascii_pico
 
-This project is a port of the Arduino SSD1306Ascii library for a Raspberry Pi Pico.
+This project is a port of the [Arduino SSD1306Ascii library](https://github.com/greiman/SSD1306Ascii) for a Raspberry Pi Pico.
 
 ## Getting Started
 
