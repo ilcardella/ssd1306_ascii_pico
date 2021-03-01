@@ -1,4 +1,8 @@
-/* Arduino SSD1306Ascii Library
+/*
+
+  This is a port of the Arduino library for the Raspberry Pico platform
+
+ * Arduino SSD1306Ascii Library
  * Copyright (C) 2015 by William Greiman
  *
  * This file is part of the Arduino SSD1306Ascii Library
@@ -52,17 +56,6 @@
 /** Use larger faster I2C code. */
 #define OPTIMIZE_I2C 1
 
-/** If MULTIPLE_I2C_PORTS is nonzero,
-    define a constructor with port selection. */
-#ifdef __AVR__
-// Save memory on AVR. Set nonzero to use alternate I2C or software I2c on AVR.
-#define MULTIPLE_I2C_PORTS 0
-#else // __AVR__
-#define MULTIPLE_I2C_PORTS 1
-#endif // __AVR__
-
-/** AvrI2c uses 400 kHz fast mode if AVRI2C_FASTMODE is nonzero else 100 kHz. */
-#define AVRI2C_FASTMODE 1
 //------------------------------------------------------------------------------
 // Values for setScrolMode(uint8_t mode)
 /** Newline will not scroll the display or RAM window. */

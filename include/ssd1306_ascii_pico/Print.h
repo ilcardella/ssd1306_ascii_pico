@@ -1,4 +1,7 @@
 /*
+  This is a port of the library distributed with the Arduino SDK for
+  the Raspberry Pico platform
+
   Print.h - Base class that provides print() and println()
   Copyright (c) 2008 David A. Mellis.  All right reserved.
 
@@ -15,8 +18,6 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-  This is a port of the library distributed with the Arduino SDK
 */
 
 #pragma once

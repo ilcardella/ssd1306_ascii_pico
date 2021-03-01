@@ -8,10 +8,10 @@
 class I2CBus
 {
   public:
-    I2CBus(i2c_inst_t *port, const unsigned char &sda_pin, const unsigned char &scl_pin,
-           const unsigned long speed)
-        : port(port)
+    I2CBus(const uint8_t &port_id, const unsigned char &sda_pin,
+           const unsigned char &scl_pin, const unsigned long speed)
     {
+        port = port_id == 0 ? i2c0 : i2c1;
         i2c_init(port, speed);
         gpio_set_function(sda_pin, GPIO_FUNC_I2C);
         gpio_set_function(scl_pin, GPIO_FUNC_I2C);
@@ -42,29 +42,25 @@ class I2CBus
     }
 
   private:
-    uint8_t address;
-    i2c_inst_t *port;
+    uint8_t address = 0x00;
+    i2c_inst_t *port = nullptr;
 };
 
 /**
  * @class SSD1306AsciiI2C
- * @brief Class for I2C displays using Wire.
+ * @brief Class for I2C displays.
  */
 class SSD1306AsciiI2C : public SSD1306Ascii
 {
   public:
-#if MULTIPLE_I2C_PORTS
     /**
      * @brief Initialize object on specific I2C bus.
      *
      * @param[in] bus The I2C bus to be used.
      */
-    explicit SSD1306AsciiI2C(I2CBus &bus) : m_oledWire(bus)
+    explicit SSD1306AsciiI2C(I2CBus &bus) : i2c_bus(bus)
     {
     }
-#else // MULTIPLE_I2C_PORTS
-#define m_oledWire Wire
-#endif // MULTIPLE_I2C_PORTS
     /**
      * @brief Initialize the display controller.
      *
@@ -91,14 +87,6 @@ class SSD1306AsciiI2C : public SSD1306Ascii
         oledReset(rst);
         begin(dev, i2cAddr);
     }
-    /**
-     * @brief Set the I2C clock rate to 400 kHz.
-     * Deprecated use Wire.setClock(400000L)
-     */
-    void set400kHz() __attribute__((deprecated("use Wire.setClock(400000L)")))
-    {
-        m_oledWire.setClock(400000L);
-    }
 
   protected:
     void writeDisplay(uint8_t b, uint8_t mode)
@@ -106,36 +94,34 @@ class SSD1306AsciiI2C : public SSD1306Ascii
 #if OPTIMIZE_I2C
         if (m_nData > 16 || (m_nData && mode == SSD1306_MODE_CMD))
         {
-            m_oledWire.endTransmission();
+            i2c_bus.endTransmission();
             m_nData = 0;
         }
         if (m_nData == 0)
         {
-            m_oledWire.beginTransmission(m_i2cAddr);
-            m_oledWire.write(mode == SSD1306_MODE_CMD ? 0X00 : 0X40);
+            i2c_bus.beginTransmission(m_i2cAddr);
+            i2c_bus.write(mode == SSD1306_MODE_CMD ? 0X00 : 0X40);
         }
-        m_oledWire.write(b);
+        i2c_bus.write(b);
         if (mode == SSD1306_MODE_RAM_BUF)
         {
             m_nData++;
         }
         else
         {
-            m_oledWire.endTransmission();
+            i2c_bus.endTransmission();
             m_nData = 0;
         }
 #else  // OPTIMIZE_I2C
-        m_oledWire.beginTransmission(m_i2cAddr);
-        m_oledWire.write(mode == SSD1306_MODE_CMD ? 0X00 : 0X40);
-        m_oledWire.write(b);
-        m_oledWire.endTransmission();
+        i2c_bus.beginTransmission(m_i2cAddr);
+        i2c_bus.write(mode == SSD1306_MODE_CMD ? 0X00 : 0X40);
+        i2c_bus.write(b);
+        i2c_bus.endTransmission();
 #endif // OPTIMIZE_I2C
     }
 
   protected:
-#if MULTIPLE_I2C_PORTS
-    I2CBus &m_oledWire;
-#endif // MULTIPLE_I2C_PORTS
+    I2CBus &i2c_bus;
     uint8_t m_i2cAddr;
 #if OPTIMIZE_I2C
     uint8_t m_nData;
