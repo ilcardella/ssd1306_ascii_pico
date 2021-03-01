@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 # PICO_SDK_PATH env var must point to the sdk installation path
 include($ENV{PICO_SDK_PATH}/pico_sdk_init.cmake)
 
-project(ssd1306_ascii_pico VERSION 0.1.0)
+project(ssd1306_ascii_pico VERSION 0.2.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
