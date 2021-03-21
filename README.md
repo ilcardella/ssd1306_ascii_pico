@@ -2,6 +2,8 @@
 
 This project is a port of the [Arduino SSD1306Ascii library](https://github.com/greiman/SSD1306Ascii) for a Raspberry Pi Pico.
 
+> **_NOTE:_** This project is a Work In Progress and there are still bugs to resolve
+
 ## Getting Started
 
 The project is configured to build targeting the RP2040 platform which is at the core of the Raspberry PI Pico board.
